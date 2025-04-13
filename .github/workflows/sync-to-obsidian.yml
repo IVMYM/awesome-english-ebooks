@@ -119,7 +119,7 @@ jobs:
           
           if [ -d "${{ steps.economist.outputs.latest_dir }}" ]; then
             # 只上传PDF文件
-            for file in "${{ steps.economist.outputs.latest_dir }}"/*.mobi; do
+            for file in "${{ steps.economist.outputs.latest_dir }}"/*.pdf; do
               if [ -f "$file" ]; then
                 # 提取文件名
                 filename=$(basename "$file")
