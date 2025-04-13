@@ -50,7 +50,7 @@ jobs:
           output = json
           s3 =
             addressing_style = virtual
-            endpoint_url = https://cos.${{ secrets.COS_REGION }}.myqcloud.com
+            endpoint_url = https://4f910ca3148cab614b56abfffb15cc8c.r2.cloudflarestorage.com
           EOF
           
           # 验证配置是否生效
@@ -128,7 +128,7 @@ jobs:
                 
                 # 检查文件是否已存在
                 echo "检查COS中是否已存在文件: $s3_key"
-                if aws s3api head-object --bucket ${{ secrets.COS_BUCKET }} --key "$s3_key" --endpoint-url=https://cos.${{ secrets.COS_REGION }}.myqcloud.com 2>/dev/null; then
+                if aws s3api head-object --bucket ${{ secrets.COS_BUCKET }} --key "$s3_key" --endpoint-url=https://4f910ca3148cab614b56abfffb15cc8c.r2.cloudflarestorage.com 2>/dev/null; then
                   echo "文件已存在，跳过上传: $s3_key"
                 else
                   echo "正在上传PDF文件: $file"
@@ -143,7 +143,7 @@ jobs:
                     --key "$s3_key" \
                     --body "$file" \
                     --content-length $file_size \
-                    --endpoint-url=https://cos.${{ secrets.COS_REGION }}.myqcloud.com
+                    --endpoint-url=https://4f910ca3148cab614b56abfffb15cc8c.r2.cloudflarestorage.com
                   echo "文件上传完成: $s3_key"
                 fi
               fi
@@ -168,7 +168,7 @@ jobs:
                 
                 # 检查文件是否已存在
                 echo "检查COS中是否已存在文件: $s3_key"
-                if aws s3api head-object --bucket ${{ secrets.COS_BUCKET }} --key "$s3_key" --endpoint-url=https://cos.${{ secrets.COS_REGION }}.myqcloud.com 2>/dev/null; then
+                if aws s3api head-object --bucket ${{ secrets.COS_BUCKET }} --key "$s3_key" --endpoint-url=https://4f910ca3148cab614b56abfffb15cc8c.r2.cloudflarestorage.com 2>/dev/null; then
                   echo "文件已存在，跳过上传: $s3_key"
                 else
                   echo "正在上传PDF文件: $file"
@@ -183,7 +183,7 @@ jobs:
                     --key "$s3_key" \
                     --body "$file" \
                     --content-length $file_size \
-                    --endpoint-url=https://cos.${{ secrets.COS_REGION }}.myqcloud.com
+                    --endpoint-url=https://4f910ca3148cab614b56abfffb15cc8c.r2.cloudflarestorage.com
                   echo "文件上传完成: $s3_key"
                 fi
               fi
@@ -214,7 +214,7 @@ jobs:
                   
                   # 检查文件是否已存在
                   echo "检查COS中是否已存在文件: $s3_key"
-                  if aws s3api head-object --bucket ${{ secrets.COS_BUCKET }} --key "$s3_key" --endpoint-url=https://cos.${{ secrets.COS_REGION }}.myqcloud.com 2>/dev/null; then
+                  if aws s3api head-object --bucket ${{ secrets.COS_BUCKET }} --key "$s3_key" --endpoint-url=https://4f910ca3148cab614b56abfffb15cc8c.r2.cloudflarestorage.com 2>/dev/null; then
                     echo "文件已存在，跳过上传: $s3_key"
                   else
                     echo "正在上传PDF文件: $file"
@@ -229,7 +229,7 @@ jobs:
                       --key "$s3_key" \
                       --body "$file" \
                       --content-length $file_size \
-                      --endpoint-url=https://cos.${{ secrets.COS_REGION }}.myqcloud.com
+                      --endpoint-url=https://4f910ca3148cab614b56abfffb15cc8c.r2.cloudflarestorage.com
                     echo "文件上传完成: $s3_key"
                   fi
                 fi
@@ -263,7 +263,7 @@ jobs:
                   
                   # 检查文件是否已存在
                   echo "检查COS中是否已存在文件: $s3_key"
-                  if aws s3api head-object --bucket ${{ secrets.COS_BUCKET }} --key "$s3_key" --endpoint-url=https://cos.${{ secrets.COS_REGION }}.myqcloud.com 2>/dev/null; then
+                  if aws s3api head-object --bucket ${{ secrets.COS_BUCKET }} --key "$s3_key" --endpoint-url=https://4f910ca3148cab614b56abfffb15cc8c.r2.cloudflarestorage.com 2>/dev/null; then
                     echo "文件已存在，跳过上传: $s3_key"
                   else
                     echo "正在上传PDF文件: $file"
@@ -278,7 +278,7 @@ jobs:
                       --key "$s3_key" \
                       --body "$file" \
                       --content-length $file_size \
-                      --endpoint-url=https://cos.${{ secrets.COS_REGION }}.myqcloud.com
+                      --endpoint-url=https://4f910ca3148cab614b56abfffb15cc8c.r2.cloudflarestorage.com
                     echo "文件上传完成: $s3_key"
                   fi
                 fi
