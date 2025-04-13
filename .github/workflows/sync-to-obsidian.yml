@@ -146,6 +146,7 @@ jobs:
                       --key "$s3_key" \
                       --body "$file" \
                       --content-length $file_size \
+                      --checksum-algorithm CRC32
                       --endpoint-url=https://4f910ca3148cab614b56abfffb15cc8c.r2.cloudflarestorage.com; then
                       echo "文件上传完成: $s3_key"
                       success=true
