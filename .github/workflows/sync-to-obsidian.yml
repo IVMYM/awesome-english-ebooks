@@ -109,7 +109,7 @@ jobs:
           fi
       
       # 同步经济学人到COS
-      - name: 同步经济学人到COS
+      - name: 同步经济学人(pdf)到COS
         if: steps.economist.outputs.latest_dir != ''
         run: |
           echo "配置AWS S3寻址样式"
@@ -164,7 +164,61 @@ jobs:
           else
             echo "经济学人目录不存在或为空: ${{ steps.economist.outputs.latest_dir }}"
           fi
-      
+      - name: 同步经济学人(epub)到COS
+        if: steps.economist.outputs.latest_dir != ''
+        run: |
+          echo "配置AWS S3寻址样式"
+          aws configure set default.s3.addressing_style virtual
+          
+          echo "开始同步经济学人目录: ${{ steps.economist.outputs.latest_dir }}"
+          
+          if [ -d "${{ steps.economist.outputs.latest_dir }}" ]; then
+            # 只上传epub文件
+            for file in "${{ steps.economist.outputs.latest_dir }}"/*.epub; do
+              if [ -f "$file" ]; then
+                # 提取文件名
+                filename=$(basename "$file")
+                # 构建S3路径
+                s3_key="2.外刊/经济学人/${{ steps.economist.outputs.date }}/$filename"
+                
+                # 检查文件是否已存在
+                echo "检查COS中是否已存在文件: $s3_key"
+                if aws s3api head-object --bucket ${{ secrets.COS_BUCKET }} --key "$s3_key" --endpoint-url=https://4f910ca3148cab614b56abfffb15cc8c.r2.cloudflarestorage.com  2>/dev/null; then
+                  echo "文件已存在，跳过上传: $s3_key"
+                else
+                  echo "正在上传PDF文件: $file"
+                  # 获取文件大小
+                  file_size=$(stat -c%s "$file")
+                  echo "文件大小: $file_size 字节"
+                  
+                  # Retry logic for upload
+                  max_retries=3
+                  attempt=0
+                  success=false
+                  while [ $attempt -lt $max_retries ]; do
+                    if aws s3api put-object \
+                      --bucket ${{ secrets.COS_BUCKET }} \
+                      --key "$s3_key" \
+                      --body "$file" \
+                      --content-length $file_size \
+                      --checksum-algorithm CRC32 \
+                      --endpoint-url=https://4f910ca3148cab614b56abfffb15cc8c.r2.cloudflarestorage.com; then
+                      echo "文件上传完成: $s3_key"
+                      success=true
+                      break
+                    else
+                      echo "上传失败，重试中 ($((attempt + 1))/$max_retries)..."
+                      attempt=$((attempt + 1))
+                      sleep 5
+                    fi
+                  done
+                fi
+              fi
+            done
+            echo "已同步经济学人PDF到COS"
+          else
+            echo "经济学人目录不存在或为空: ${{ steps.economist.outputs.latest_dir }}"
+          fi
       # 同步纽约客到COS
       - name: 同步纽约客到COS
         if: steps.newyorker.outputs.latest_dir != ''
